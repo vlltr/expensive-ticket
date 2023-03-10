@@ -29,7 +29,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 bg-white">
-          <tr v-for="post in posts" :key="post.id">
+          <tr v-for="post in posts.data" :key="post.id">
             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ post.id }}</td>
             <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ post.title }}</td>
             <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ post.content }}</td>
@@ -41,6 +41,7 @@
           </tr>
         </tbody>
       </table>
+      <Pagination :data="posts" @pagination-change-page="getPosts" />
     </div>
   </div>
 </template>
@@ -48,7 +49,7 @@
 <script setup>
 import { usePosts } from '../../composables/posts'
 
-const { posts } = usePosts()
+const { posts, getPosts } = usePosts()
 
 
 
