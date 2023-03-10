@@ -21,6 +21,9 @@
             </th>
             <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">Content
             </th>
+            <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">
+              Category
+            </th>
             <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">Created
               At</th>
             <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
@@ -33,6 +36,7 @@
             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ post.id }}</td>
             <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ post.title }}</td>
             <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ post.content }}</td>
+            <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ post.category_name }}</td>
             <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ post.created_at }}</td>
             <td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
               <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, {{ post.title
