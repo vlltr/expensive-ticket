@@ -3,8 +3,10 @@ import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 export const usePosts = () => {
-    const posts = ref({});
     const router = useRouter();
+    const posts = ref({});
+    const validationErrors = ref({});
+    const isLoading = ref(false);
 
     const getPosts = async (
         page = 1,
@@ -23,11 +25,24 @@ export const usePosts = () => {
     onMounted(getPosts);
 
     const storePost = async (post) => {
-        axios.post("/api/posts", post).then((response) => {
-            router.push({ name: "posts.index" });
-            posts.value = response.data;
-        });
+        if (isLoading.value) return;
+
+        isLoading.value = true;
+        validationErrors.value = {};
+
+        axios
+            .post("/api/posts", post)
+            .then((response) => {
+                router.push({ name: "posts.index" });
+                posts.value = response.data;
+            })
+            .catch((error) => {
+                if (error.response?.data) {
+                    validationErrors.value = error.response.data.errors;
+                }
+            })
+            .finally(() => (isLoading.value = false));
     };
 
-    return { posts, getPosts, storePost };
+    return { posts, getPosts, storePost, validationErrors, isLoading };
 };
