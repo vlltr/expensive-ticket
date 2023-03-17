@@ -2,9 +2,14 @@
   <div class="px-4 sm:px-6 lg:px-8">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
-        <h1 class="text-base font-semibold leading-6 text-gray-900">Users</h1>
-        <p class="mt-2 text-sm text-gray-700">A list of all the users in your account including their name, title, email
-          and role.</p>
+        <div class="w-1/5">
+          <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Filter By Category</label>
+          <select id="category" name="category" v-model="selectedCategory"
+            class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <option value="">All</option>
+            <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
+          </select>
+        </div>
       </div>
       <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
         <button type="button"
@@ -36,7 +41,8 @@
             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ post.id }}</td>
             <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ post.title }}</td>
             <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ post.content }}</td>
-            <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ post.category_name }}</td>
+            <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ post.category_name }}
+            </td>
             <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ post.created_at }}</td>
             <td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
               <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, {{ post.title
@@ -45,16 +51,21 @@
           </tr>
         </tbody>
       </table>
-      <Pagination :data="posts" @pagination-change-page="getPosts" />
+      <Pagination :data="posts" @pagination-change-page="page => getPosts(page, selectedCategory)" />
     </div>
   </div>
 </template>
   
 <script setup>
-import { usePosts } from '../../composables/posts'
+import { ref, watch } from 'vue';
+import { usePosts, useCategories } from '../../composables'
 
 const { posts, getPosts } = usePosts()
+const { categories } = useCategories()
 
-
+const selectedCategory = ref('')
+watch(selectedCategory, (current, previous) => {
+  getPosts(1, current)
+})
 
 </script>
