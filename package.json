@@ -15,8 +15,8 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@heroicons/vue": "^2.0.16",
         "laravel-vue-pagination": "^4.0.0",
-        "vue": "^3.2.36"
+        "vue": "^3.2.36",
+        "vue-router": "^4.1.6"
     }
 }
