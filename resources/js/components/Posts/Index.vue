@@ -64,7 +64,7 @@
               Category
             </th>
             <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">
-              <div class="flex flex-row items-center justify-between cursor-pointer" @click="updateOrdering('id')">
+              <div class="flex flex-row items-center justify-between cursor-pointer" @click="updateOrdering('created_at')">
                 <div class="leading-4 font-medium text-gray-500 uppercase tracking-wider"
                   :class="{ 'font-bold text-blue-600': orderColumn === 'created_at' }">
                   Created At
