@@ -21,16 +21,66 @@
       <table class="min-w-full divide-y divide-gray-300">
         <thead>
           <tr>
-            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Id</th>
-            <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">Title
+            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+              <div class="flex flex-row items-center justify-between cursor-pointer" @click="updateOrdering('id')">
+                <div class="leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                  :class="{ 'font-bold text-blue-600': orderColumn === 'id' }">
+                  ID
+                </div>
+                <div class="select-none">
+                  <span :class="{
+                    'text-blue-600': orderDirection === 'asc' && orderColumn === 'id',
+                    'hidden': orderDirection !== '' && orderDirection !== 'asc' && orderColumn === 'id',
+                  }">&uarr;</span>
+                  <span :class="{
+                    'text-blue-600': orderDirection === 'desc' && orderColumn === 'id',
+                    'hidden': orderDirection !== '' && orderDirection !== 'desc' && orderColumn === 'id',
+                  }">&darr;</span>
+                </div>
+              </div>
             </th>
-            <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">Content
+            <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">
+              <div class="flex flex-row items-center justify-between cursor-pointer" @click="updateOrdering('title')">
+                <div class="leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                  :class="{ 'font-bold text-blue-600': orderColumn === 'title' }">
+                  Title
+                </div>
+                <div class="select-none">
+                  <span :class="{
+                    'text-blue-600': orderDirection === 'asc' && orderColumn === 'title',
+                    'hidden': orderDirection !== '' && orderDirection !== 'asc' && orderColumn === 'title',
+                  }">&uarr;</span>
+                  <span :class="{
+                    'text-blue-600': orderDirection === 'desc' && orderColumn === 'title',
+                    'hidden': orderDirection !== '' && orderDirection !== 'desc' && orderColumn === 'title',
+                  }">&darr;</span>
+                </div>
+              </div>
+            </th>
+            <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">
+
             </th>
             <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">
               Category
             </th>
-            <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">Created
-              At</th>
+            <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">
+              <div class="flex flex-row items-center justify-between cursor-pointer" @click="updateOrdering('id')">
+                <div class="leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                  :class="{ 'font-bold text-blue-600': orderColumn === 'created_at' }">
+                  Created At
+                </div>
+                <div class="select-none">
+                  <span :class="{
+                    'text-blue-600': orderDirection === 'asc' && orderColumn === 'created_at',
+                    'hidden': orderDirection !== '' && orderDirection !== 'asc' && orderColumn === 'created_at',
+                  }">&uarr;</span>
+                  <span :class="{
+                    'text-blue-600': orderDirection === 'desc' && orderColumn === 'created_at',
+                    'hidden': orderDirection !== '' && orderDirection !== 'desc' && orderColumn === 'created_at',
+                  }">&darr;</span>
+                </div>
+              </div>
+              </th>
             <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
               <span class="sr-only">Edit</span>
             </th>
@@ -64,6 +114,17 @@ const { posts, getPosts } = usePosts()
 const { categories } = useCategories()
 
 const selectedCategory = ref('')
+const orderColumn = ref('created_at')
+const orderDirection = ref('desc')
+
+const updateOrdering = (column) => {
+  orderColumn.value = column
+  orderDirection.value = (orderDirection.value === 'asc') ? 'desc' : 'asc'
+  getPosts(1, selectedCategory.value, orderColumn.value, orderDirection.value)
+
+}
+
+
 watch(selectedCategory, (current, previous) => {
   getPosts(1, current)
 })
