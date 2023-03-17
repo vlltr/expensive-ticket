@@ -1,8 +1,10 @@
+import axios from "axios";
 import { ref } from "vue";
 import { onMounted } from "vue";
-
+import { useRouter } from "vue-router";
 export const usePosts = () => {
     const posts = ref({});
+    const router = useRouter();
 
     const getPosts = async (
         page = 1,
@@ -20,5 +22,12 @@ export const usePosts = () => {
 
     onMounted(getPosts);
 
-    return { posts, getPosts };
+    const storePost = async (post) => {
+        axios.post("/api/posts", post).then((response) => {
+            router.push({ name: "posts.index" });
+            posts.value = response.data;
+        });
+    };
+
+    return { posts, getPosts, storePost };
 };
